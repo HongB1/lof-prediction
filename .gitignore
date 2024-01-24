@@ -1,4 +1,6 @@
+*.csv
+*.sqlite
 *.pkl
 *.txt
-*.csv
-
+/home/hb/python/lof/clue/wandb
+*.tsv
