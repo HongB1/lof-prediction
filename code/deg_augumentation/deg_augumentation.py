@@ -33,17 +33,18 @@ for condition in list(set(metadata.condition.unique()) - set(['control'])):
     """perturb와 control 데이터셋 생성"""
     metadata_perturb_total = metadata.loc[metadata.condition == condition].index.tolist()
 
-    perturb_sampling_index_sets = []
-    ctrl_sampling_index_sets = []
+    perturb_sampling_index_sets = {}
+    ctrl_sampling_index_sets = {}
     random_int = np.random.randint(1, 100000, size=len(metadata_perturb_total))
 
     for seed_value in random_int:
         np.random.seed(seed_value)
 
-        perturb_sampling_index_sets.append(np.random.choice(metadata_perturb_total, size=30, replace=False))
-        ctrl_sampling_index_sets.append(np.random.choice(metadata_ctrl_total, size=30, replace=False))
+        perturb_sampling_index_sets[seed_value] = np.random.choice(metadata_perturb_total, size=30, replace=False)
+        ctrl_sampling_index_sets[seed_value] = np.random.choice(metadata_ctrl_total, size=30, replace=False)
 
-    for perturb_sampling_index, ctrl_sampling_index in zip(perturb_sampling_index_sets, ctrl_sampling_index_sets):
+    for seed_value, perturb_sampling_index, ctrl_sampling_index in zip(perturb_sampling_index_sets.keys(), perturb_sampling_index_sets.values(), ctrl_sampling_index_sets.values()):
+        
         metadata_ctrl = metadata.loc[ctrl_sampling_index]
         metadata_pertb = metadata.loc[perturb_sampling_index]
 
